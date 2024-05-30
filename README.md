@@ -1,5 +1,5 @@
 # Description:
-💰 This application simulates a banking application that can respond to major requests such as depositing, withdrawing, and receiving loans...
+💰 This application simulates a banking application that can respond to major requests such as depositing, withdrawing, receiving loans, and many more calculations...
 
 <br/>
 
