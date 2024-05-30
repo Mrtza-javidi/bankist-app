@@ -6,7 +6,7 @@
 
 // Data
 const account1 = {
-  owner: 'Jonas Schmedtmann',
+  owner: 'Morteza Javidi',
   movements: [200, 450, -400, 30000, -650.1234, -130.34, 70.345, 1300.3],
   interestRate: 1.2, // %
   pin: 1111,
