@@ -443,12 +443,6 @@ function sortMovements(account) {
     sortedMovements = undefined;
     displayMovements(account);
   } else {
-    let a = {
-      ...account,
-      movements: [account.movements],
-      owner: [account.owner],
-    };
-
     // Combine the movements and movementsDates into an array of objects
     let combined = account.movements.map((value, i) => ({
       value,
@@ -461,6 +455,7 @@ function sortMovements(account) {
     let mov = combined.map(item => item.value);
     let movDate = combined.map(item => item.date);
     sortedMovements = {
+      ...account,
       movements: [...mov],
       movementsDates: [...movDate],
     };
