@@ -6,7 +6,7 @@
 ## How To Work with?
 1️⃣ - First you need to login to one of the 4 accounts specified in the JS environment. 
 - The accounts' information is as follow:
-   - account 1: `username: js` & `password: 1111`
+   - account 1: `username: mj` & `password: 1111`
    - account 2: `username: jd` & `password: 2222`
    - account 3: `username: stw` & `password: 3333`
    - account 4: `username: ss` & `password: 4444`
