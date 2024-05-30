@@ -21,7 +21,7 @@ const account1 = {
     '2020-08-01T10:51:36.790Z',
   ],
   currency: 'EUR',
-  locale: 'pt-PT', // de-DE
+  locale: 'de-DE',
 };
 
 const account2 = {
@@ -48,6 +48,18 @@ const account3 = {
   movements: [200, -200, 340, -300, -20, 50, 400, -460],
   interestRate: 0.7,
   pin: 3333,
+   movementsDates: [
+    '2020-06-10T21:31:17.178Z',
+    '2020-10-14T07:42:02.383Z',
+    '2020-10-28T09:15:04.904Z',
+    '2020-11-01T10:17:24.185Z',
+    '2021-05-25T14:11:59.604Z',
+    '2021-07-26T17:01:17.194Z',
+    '2022-01-19T23:36:17.929Z',
+    '2022-04-14T10:51:36.790Z',
+  ],
+  currency: 'GBP',
+  locale: 'en-GB',
 };
 
 const account4 = {
@@ -55,6 +67,18 @@ const account4 = {
   movements: [430, 1000, 700, 50, 90],
   interestRate: 1,
   pin: 4444,
+   movementsDates: [
+    '2021-02-10T21:31:17.178Z',
+    '2021-12-20T07:42:02.383Z',
+    '2022-01-28T09:15:04.904Z',
+    '2022-04-01T10:17:24.185Z',
+    '2023-09-08T14:11:59.604Z',
+    '2023-11-26T17:01:17.194Z',
+    '2024-03-28T23:36:17.929Z',
+    '2024-05-29T10:51:36.790Z',
+  ],
+  currency: 'TRY',
+  locale: 'tr-TR', 
 };
 
 const accounts = [account1, account2, account3, account4];
@@ -119,16 +143,10 @@ btnLogin.addEventListener('click', event => {
 
   // for (const account of accounts) {
   if (account) {
-    // getting current date and showing it somewhere
 
-    // const locale = navigator.language; this gets the browser language and format the date in that order
-    // const locale = account.locale;
-    // if we need just day, month, and year, we don't need to write the following options constant
     labelDate.textContent = new Intl.DateTimeFormat(account.locale, {
-      // weekday: 'long',
       hour: 'numeric',
       minute: 'numeric',
-      // day: '2-digit',
       day: 'numeric',
       month: 'numeric',
       year: 'numeric',
@@ -175,10 +193,8 @@ btnTransfer.addEventListener('click', event => {
       transferAmount > 0
   );
 
-  // for (const account of accounts) {
   if (sender) {
     let isReciever = accounts.find(acc => acc.username.includes(transferTo));
-    // for (const acc of accounts) {
     if (isReciever) {
       sender.movements.push(-transferAmount);
       sender.movementsDates.push(utcDate);
@@ -187,16 +203,14 @@ btnTransfer.addEventListener('click', event => {
         sender.movementsDates.pop();
         transferAmount = 0;
       }
-      // break;
     }
-    // }
+
     depositsSum(sender);
     withdrawalsSum(sender);
     movementsSum(sender);
     displayMovements(sender);
     timer = setLogoutTimer();
   }
-  // }
 
   let reciever = accounts.find(
     acc =>
@@ -206,14 +220,11 @@ btnTransfer.addEventListener('click', event => {
       transferAmount > 0
   );
 
-  // for (const account of accounts) {
   if (reciever) {
     reciever.movements.push(transferAmount);
     reciever.movementsDates.push(utcDate);
     displayAllMovements();
   }
-  // break;
-  // }
 
   inputTransferTo.value = null;
   inputTransferAmount.value = null;
@@ -238,7 +249,6 @@ btnLoan.addEventListener('click', event => {
       loanAmount > 0
   );
 
-  // for (const account of accounts) {
   if (account) {
     setTimeout(() => {
       account.movements.push(loanAmount);
@@ -251,9 +261,8 @@ btnLoan.addEventListener('click', event => {
       timer = setLogoutTimer();
     }, 3000);
 
-    // break;
   }
-  // }
+
   inputLoanAmount.value = null;
 });
 
@@ -267,17 +276,15 @@ btnClose.addEventListener('click', event => {
   let account = accounts.find(acc => acc.username.includes(currentUsername));
 
   if (currentUsername === closeUser && currentPin === closePin) {
-    // for (const account of accounts) {
+    
     if (account) {
-      // let index = accounts.indexOf(account);
       let index = accounts.findIndex(acc => acc === account);
       accounts.splice(index, 1);
       containerApp.style.cssText = 'opacity: 0; visibility: hidden;';
       labelWelcome.textContent = 'Log in to get started';
-      // break;
     }
-    // }
   }
+  
   inputCloseUsername.value = null;
   inputClosePin.value = null;
 });
@@ -287,12 +294,9 @@ btnSort.addEventListener('click', () => {
   let account = accounts.find(
     acc => acc.username === currentUsername && acc.pin === currentPin
   );
-  // for (const account of accounts) {
   if (account) {
     sortMovements(account);
-    // break;
   }
-  // }
 });
 
 // show the account welcome message
@@ -303,22 +307,8 @@ function showWelcomeMessage(account) {
   } else labelWelcome.textContent = 'Log in to get started';
 }
 
-// getting current date and showing it somewhere
-// function currentDate(date, element) {
-//   const day = String(date.getDate());
-//   const month = String(date.getMonth() + 1).padStart(2, 0);
-//   const year = date.getFullYear();
-//   const hour = String(date.getHours()).padStart(2, 0);
-//   const minute = String(date.getMinutes()).padStart(2, 0);
-//   const now = `${day}/${month}/${year}, ${hour}:${minute}`;
-//   element.textContent = now;
-// }
-
 // format and display movements' dates
 function formatMovementsDate(account, date) {
-  // const day = String(date.getDate()).padStart(2, 0);
-  // const month = String(date.getMonth() + 1).padStart(2, 0);
-  // const year = date.getFullYear();
 
   function daysPassed() {
     const now = Date.UTC(
@@ -343,7 +333,6 @@ function formatMovementsDate(account, date) {
   } else if (daysPassed() <= 3) {
     movementsDate = `${daysPassed()} days ago`;
   } else {
-    // movementsDate = `${day}/${month}/${year}`;
     const locale = account.locale;
     movementsDate = new Intl.DateTimeFormat(locale).format(date);
   }
@@ -351,7 +340,7 @@ function formatMovementsDate(account, date) {
   return movementsDate;
 }
 
-// display movements corresponds to each account we need
+// display movements corresponds to each account we're in
 function displayMovements(account) {
   containerMovements.innerHTML = ' ';
   account.movements.forEach(function (mov, i) {
@@ -384,13 +373,6 @@ function formatCurrency(value, locale, currency) {
     currency: currency,
   }).format(value);
 }
-
-const j = 127736.5543;
-console.log(new Intl.NumberFormat(account2.locale).format(j));
-console.log(new Intl.NumberFormat(account1.locale).format(j));
-console.log(new Intl.NumberFormat('de-DE').format(j));
-console.log(new Intl.NumberFormat('fa-IR').format(j));
-console.log(j.toFixed(2));
 
 // sum movements up
 function movementsSum(account) {
@@ -493,12 +475,8 @@ function displayAllMovements() {
     .flatMap(acc => acc.movements)
     .reduce(
       (sums, cur) => {
-        // we can call an object method in two ways: 1- (.): account.movements 2- ['// must be string']: account['movements']. The second way has an advantage to set and check a condition by ternary operator like in the following line of code and return the desired method into that object. NOTE: the 'sums' is an object of { all, deposits, withdrawals }
         sums[cur > 0 ? 'deposits' : 'withdrawals'] += cur;
-        // or we can use the following method. But its disadvantage is that we need to write this expression: sums.withdrawals += cur twice, once for deposits and once for withdrawals
-        // cur > 0 ? (sums.deposits += cur) : (sums.withdrawals += cur);
         sums['all'] += cur;
-        // or sums.all += cur;
         return sums;
       },
       { all: 0, deposits: 0, withdrawals: 0 }
@@ -531,267 +509,3 @@ function setLogoutTimer() {
   }, 1000);
   return countDown;
 }
-
-let allMovements = accounts
-  // .map(mov => mov.movements)
-  // .flat()
-  // the following code does the same functionality as above with only one line of code but goes one nested deep that in this example is ok
-  .flatMap(acc => acc.movements)
-  .reduce((acc, mov) => acc + mov, 0);
-
-// let allDeposits = accounts
-//   // .map(mov => mov.movements)
-//   // .flat()
-//   .flatMap(acc => acc.movements)
-//   .filter(mov => mov > 0)
-//   .reduce((acc, mov) => acc + mov, 0);
-// let allWithdrawals = accounts
-//   // .flatMap(acc => acc.movements)
-//   .map(mov => mov.movements)
-//   .flat()
-//   .filter(mov => mov < 0)
-//   .reduce((acc, mov) => acc - mov, 0);
-
-function titleCase(title) {
-  let exceptions = [
-    'a',
-    'an',
-    'the',
-    'is',
-    'are',
-    ,
-    'was',
-    'war',
-    'been',
-    'and',
-    'but',
-    'or',
-    'on',
-    'in',
-    'of',
-  ];
-
-  const capitzalizer = str => str[0].toUpperCase() + str.slice(1);
-
-  // let firstLetter = str[0].toUpperCase();
-
-  let titleCase = title
-    .toLowerCase()
-    .split(' ')
-    .map(word => (exceptions.includes(word) ? word : capitzalizer(word)))
-    .join(' ');
-  // .slice(1);
-  return capitzalizer(titleCase);
-}
-console.log(titleCase('my name Is morteza'));
-console.log(titleCase('This is a very short text of internet'));
-console.log(titleCase('and here we go...'));
-
-// logout timeout
-function logout(params) {}
-
-/////////////////////////////////////////////////
-/////////////////////////////////////////////////
-// LECTURES
-
-const currencies = new Map([
-  ['USD', 'United States dollar'],
-  ['EUR', 'Euro'],
-  ['GBP', 'Pound sterling'],
-]);
-
-const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
-
-/////////////////////////////////////////////////
-// console.log(0.1 + 0.1 === 0.2);
-// console.log(0.1 + 0.2 === 0.3);
-// console.log(Number('23'));
-// console.log(Number('23.3') === 23.3);
-// console.log(+'23');
-// console.log(Number.parseFloat(0.1 + 0.2));
-// console.log(Number.parseFloat('  2.5rem  '));
-
-// console.log(Number.isFinite(20));
-// console.log(Number.isFinite(Number.parseInt('20.554')));
-// console.log(Number.isFinite(+'20X'));
-// console.log(Number.isFinite(23 / 0));
-
-console.log(Math.max(5, 18, '23px', 11, 2));
-
-console.log(Math.PI * Number.parseFloat('10px') ** 2);
-
-// console.log((2.7).toFixed(0));
-// console.log((2.7).toFixed(3));
-// console.log((2.345).toFixed(2));
-// console.log((+2.345).toFixed(2));
-
-const diameter = 287_460_000_000;
-console.log(diameter);
-console.log(new Date().toISOString());
-console.log('-----------------');
-console.log(new Date('Aug 02 2020 18:05:41'));
-console.log(new Date('December 24, 2015'));
-console.log(new Date(account1.movementsDates[0]));
-console.log('-----------------');
-const now = new Date();
-console.log(Date.now());
-
-console.log('-------------------------');
-console.log(Math.round(23.3));
-console.log(Math.round(23.9));
-
-console.log(Math.ceil(23.3));
-console.log(Math.ceil(23.9));
-
-console.log(Math.floor(23.3));
-console.log(Math.floor('23.9'));
-
-console.log(Math.trunc(23.3));
-console.log(Math.trunc(23.9));
-
-console.log(Math.trunc(-23.3));
-console.log(Math.floor(-23.3));
-
-console.log('++++++++++++++++++++++++++++++++++++++');
-console.log(new Date().toISOString());
-console.log(Date.UTC(new Date().getUTCFullYear()));
-const sec = new Date('2024-05-20T21:49:59.371Z');
-console.log(
-  Date.UTC(
-    new Date().getUTCFullYear(),
-    new Date().getUTCMonth(),
-    new Date().getUTCDate()
-  )
-);
-console.log('t');
-console.log(
-  Date.UTC(sec.getUTCFullYear(), sec.getUTCMonth(), sec.getUTCDate())
-);
-console.log(Date.UTC(new Date().getUTCDate()));
-console.log(new Date().getTime());
-console.log(
-  // new Date(
-  Date.UTC(
-    new Date().getUTCFullYear(),
-    new Date().getUTCMonth(),
-    new Date().getUTCDate(),
-    new Date().getUTCMinutes()
-  )
-  // )
-);
-
-console.log('=====================================');
-const future = new Date();
-// 2037, 10, 19, 15, 23
-console.log(future.toISOString());
-console.log(future.getUTCDate());
-console.log(future.getUTCFullYear() === future.getFullYear());
-console.log(future.getUTCSeconds() === future.getTime());
-console.log(future.getUTCSeconds());
-console.log(future.getTime());
-console.log(new Date(2142256980000));
-console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>');
-// const time = setInterval(() => {
-//   const dt = new Date();
-//   let formatedTime = new Intl.DateTimeFormat('fa-IR', {
-//     hour: 'numeric',
-//     minute: 'numeric',
-//     second: 'numeric',
-//   }).format(dt);
-//   console.log(formatedTime);
-// }, 1000);
-
-console.log(Number.parseInt(32, 2));
-let randomNumber = Math.floor(Math.random() * (20 - 10 + 1)) + 10;
-console.log(randomNumber);
-
-// var date = new Date(Date.UTC(2012, 11, 20, 3, 0, 0));
-// var options = {
-//   weekday: 'long',
-//   year: 'numeric',
-//   month: 'long',
-//   day: 'numeric',
-// };
-// console.log(new Intl.DateTimeFormat('de-DE', options).format(date));
-
-// var date = new Date(Date.UTC(2012, 11, 20, 3, 0, 0));
-// var options = {
-//   localeMatcher: 'best fit',
-//   calendar: 'gregory',
-//   numberingSystem: 'arab',
-//   hour12: true,
-//   hourCycle: 'h12',
-//   timeZone: 'America/New_York',
-// };
-// console.log(new Intl.DateTimeFormat('en-US', options).format(date));
-
-// Example of using 'format'
-// var date = new Date(Date.UTC(2012, 11, 20, 3, 0, 0));
-// var formatter = new Intl.DateTimeFormat('en-US');
-// console.log(formatter.format(date));
-
-// Example of using 'formatRange'
-var date1 = new Date(Date.UTC(2012, 11, 20, 3, 0, 0));
-var date2 = new Date(Date.UTC(2012, 11, 21, 3, 0, 0));
-var formatter = new Intl.DateTimeFormat('en-US');
-console.log(formatter.formatRange(date1, date2));
-
-// // Example of using 'formatRangeToParts'
-// var date1 = new Date(Date.UTC(2012, 11, 20, 3, 0, 0));
-// var date2 = new Date(Date.UTC(2012, 11, 21, 3, 0, 0));
-// var formatter = new Intl.DateTimeFormat('en-US');
-// console.log(formatter.formatRangeToParts(date1, date2));
-
-// // Example of using 'formatToParts'
-// var date = new Date(Date.UTC(2012, 11, 20, 3, 0, 0));
-// var formatter = new Intl.DateTimeFormat('en-US');
-// console.log(formatter.formatToParts(date));
-
-// // Example of using 'resolvedOptions'
-// var formatter = new Intl.DateTimeFormat('en-US');
-// console.log(formatter.resolvedOptions());
-
-// Example of using 'localeMatcher' and 'numberingSystem'
-// var number = 123456.789;
-// var options = {
-//   localeMatcher: 'best fit',
-//   numberingSystem: 'mathans',
-// };
-// console.log(new Intl.NumberFormat('en-US', options).format(number));
-
-// Example of using 'style', 'currency', 'currencyDisplay', 'currencySign', and 'unit'
-// var number = 123456.789;
-// var options = {
-//   style: 'currency',
-//   currency: 'USD',
-//   currencyDisplay: 'symbol',
-//   currencySign: 'standard',
-//   unit: 'mile-per-hour',
-// };
-// console.log(new Intl.NumberFormat('en-US', options).format(number));
-
-// Example of using 'format'
-var number = 123456.789;
-var formatter = new Intl.NumberFormat('en-US');
-console.log(formatter.format(number));
-
-// Example of using 'formatRange'
-var number1 = 123456.789;
-var number2 = 987654.321;
-var formatter = new Intl.NumberFormat('en-US');
-console.log(formatter.formatRange(number1, number2));
-
-// Example of using 'formatRangeToParts'
-var number1 = 123456.789;
-var number2 = 987654.321;
-var formatter = new Intl.NumberFormat('en-US');
-console.log(formatter.formatRangeToParts(number1, number2));
-
-// Example of using 'formatToParts'
-var number = 123456.789;
-var formatter = new Intl.NumberFormat('en-US');
-console.log(formatter.formatToParts(number));
-
-// Example of using 'resolvedOptions'
-var formatter = new Intl.NumberFormat('en-US');
-console.log(formatter.resolvedOptions());
